@@ -1,0 +1,29 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block banner-img %}
+{% static 'core/img/estadio.jpg' %}
+{% endblock %}
+{% block banner-txt %}
+<h1>¡T1 es el nuevo campeon! </h1>
+{% endblock %}
+{% block content %}
+        <!-- Post Content-->
+        <article class="mb-4">
+            <div class="container px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <p>T1 y Faker lograron su 5to título mundial en League of Legends al ganar el Worlds 2024 contra BiliBili Gaming el pasado sábado 2 de noviembre, en una serie que quedó con el marcador de 3 a 2, con lo que levantaron la Copa del Invocador y se llevaron un premio en efectivo de $445,000 mil dólares.
+                            Con este triunfo los jugadores Zeus, Oner, Faker, Gumayusi, Keria tendrán estampados sus nombre en Copa del Invocador. Desde la organización T1 hace historia nuevamente, y desde ya de seguro buscará ganar nuevamente el campeonato en la temporada 2025.</p>
+                        
+                        <a href="#!"><img class="img-fluid" src="{% static 'core/img/t1.jpg' %}" alt="video final" /></a>
+                        <iframe width="700" height="500" src="https://www.youtube.com/embed/Kv2rswmxBVs" 
+                        title="YouTube video player" frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen style="margin-top: 30px;"></iframe>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </article>
+        <!-- Footer-->
+        {% endblock %}

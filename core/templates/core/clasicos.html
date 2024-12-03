@@ -1,0 +1,30 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block banner-img %}
+{% static 'core/img/modos.png' %}
+{% endblock %}
+{% block banner-txt %}
+<h1>Modos de juego</h1>
+{% endblock %}
+{% block content %}
+        <!-- Main Content-->
+        <main class="mb-4">
+            <div class="container px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <h1> GRIETA DEL INVOCADOR </h1>
+                        <p>Es el modo de juego más común dentro del lol. El  objetivo de La Grieta del Invocador es simple: destruir el nexo enemigo. Para llegar a ello, los campeones deben atravesar las diferentes lineas o carriles (lanes) donde combatirán contra los campeones enemigos para destruir las torretas, dos por linea (cuatro por linea en total), hasta llegar a la base enemiga. La fuerza de las torretas crece según su cercanía al nexo.</p>
+                        <img src="{% static 'core/img/grieta.jpg' %}" alt="foto grieta" width="700px">
+                        <h2>ARAM </h2>
+                        <p>ARAM , abreviatura de All Random, All Mid , es un modo de juego de League of Legends en formato 5v5 en el Abismo de los Lamentos , donde el objetivo es destruir el Nexo del equipo contrario . El juego  se desarrolla solo en un carril largo (haciendo referencia específicamente a su parecido con el carril central de la Grieta del Invocador ).
+                        <img src="{% static 'core/img/aram.jpg' %}" alt="foto aram" width="700px">
+                            En ARAM, los jugadores reciben campeones aleatorios del grupo de campeones disponible y pueden intercambiar o cambiar sus elecciones.</p>
+                        <h3>TEAMFIGHT TACTICS (TFT) </h3>
+                        <p>Teamfight Tactics es un juego de tácticas de reclutamiento todos contra todos de 8 jugadores, en el cual el jugador recluta poderosos campeones, los despliega y lucha con ellos para convertirse en el último jugador en pie.</p>
+                        <img src="{% static 'core/img/tft.jpg' %}" alt="foto tft" width="700px">
+                    </div>
+                </div>
+            </div>
+        </main>
+        <!-- Footer-->
+{% endblock %}

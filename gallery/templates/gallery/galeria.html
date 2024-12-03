@@ -1,0 +1,127 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Galería de Personajes</h1>
+    
+    <!-- Filtros -->
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <form method="get" class="d-flex justify-content-center gap-3">
+                <select name="linea" class="form-select" style="max-width: 200px;">
+                    <option value="">Todas las líneas</option>
+                    {% for value, label in lineas %}
+                        <option value="{{ value }}" {% if linea_actual == value %}selected{% endif %}>
+                            {{ label }}
+                        </option>
+                    {% endfor %}
+                </select>
+                
+                <select name="tipo" class="form-select" style="max-width: 200px;">
+                    <option value="">Todos los tipos</option>
+                    {% for value, label in tipos %}
+                        <option value="{{ value }}" {% if tipo_actual == value %}selected{% endif %}>
+                            {{ label }}
+                        </option>
+                    {% endfor %}
+                </select>
+                
+                <button type="submit" class="btn btn-primary">Filtrar</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Galería de personajes -->
+    <div class="row">
+        {% if galerias %}
+            {% for galeria in galerias %}
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <!-- Imagen del personaje -->
+                        <img src="{% if galeria.imagen %}{{ galeria.imagen.url }}{% else %}{% static 'gallery/img/default.jpg' %}{% endif %}" 
+                             class="card-img-top" 
+                             alt="{{ galeria.title }}" 
+                             style="height: 300px; object-fit: cover;">
+                        
+                        <div class="card-body">
+                            <!-- Información del personaje -->
+                            <h5 class="card-title">{{ galeria.title }}</h5>
+                            <p class="card-text">{{ galeria.description }}</p>
+                            <div class="mb-2">
+                                <span class="badge bg-primary">{{ galeria.get_linea_display }}</span>
+                                <span class="badge bg-secondary">{{ galeria.get_tipo_display }}</span>
+                            </div>
+                            
+                            <!-- Sección de comentarios -->
+                            {% if user.is_authenticated %}
+                                <button class="btn btn-primary mb-3" type="button" 
+                                        data-bs-toggle="collapse" 
+                                        data-bs-target="#comentarioForm{{ galeria.id }}">
+                                    Comentar
+                                </button>
+                                
+                                <div class="collapse" id="comentarioForm{{ galeria.id }}">
+                                    <form method="post" action="{% url 'gallery:agregar_comentario' galeria.id %}">
+                                        {% csrf_token %}
+                                        <div class="form-group mb-3">
+                                            <textarea name="texto" class="form-control" rows="3" 
+                                                      required placeholder="Escribe tu comentario aquí..."></textarea>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Enviar</button>
+                                    </form>
+                                </div>
+                            {% endif %}
+                            
+                            <!-- Lista de comentarios -->
+                            <div class="mt-3">
+                                {% with comentarios=galeria.comentario_set.all|slice:":2" %}
+                                    {% for comentario in comentarios %}
+                                        <div class="card mb-2">
+                                            <div class="card-body py-2">
+                                                <h6 class="card-subtitle mb-1">{{ comentario.usuario.username }}</h6>
+                                                <p class="card-text mb-1">{{ comentario.texto }}</p>
+                                                <small class="text-muted">{{ comentario.fecha|date:"d/m/Y H:i" }}</small>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                {% endwith %}
+
+                                {% if galeria.comentario_set.count > 2 %}
+                                    <div class="text-center">
+                                        <button class="btn btn-link p-0" type="button" 
+                                                data-bs-toggle="collapse" 
+                                                data-bs-target="#masComentarios{{ galeria.id }}">
+                                            <i class="fas fa-chevron-down"></i> Ver más
+                                        </button>
+                                    </div>
+                                    
+                                    <div class="collapse" id="masComentarios{{ galeria.id }}">
+                                        {% with comentarios_adicionales=galeria.comentario_set.all|slice:"2:" %}
+                                            {% for comentario in comentarios_adicionales %}
+                                                <div class="card mb-2">
+                                                    <div class="card-body py-2">
+                                                        <h6 class="card-subtitle mb-1">{{ comentario.usuario.username }}</h6>
+                                                        <p class="card-text mb-1">{{ comentario.texto }}</p>
+                                                        <small class="text-muted">{{ comentario.fecha|date:"d/m/Y H:i" }}</small>
+                                                    </div>
+                                                </div>
+                                            {% endfor %}
+                                        {% endwith %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="col-12">
+                <div class="alert alert-warning text-center">
+                    No se encontraron personajes que coincidan con los criterios de búsqueda.
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
